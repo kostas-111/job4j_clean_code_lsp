@@ -3,6 +3,7 @@ package ru.job4j.ood.isp.menu;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -29,5 +30,36 @@ public class SimpleMenuTest {
                 "Покормить собаку", List.of(), STUB_ACTION, "2."))
                 .isEqualTo(menu.select("Покормить собаку").get());
         menu.forEach(i -> System.out.println(i.getNumber() + i.getName()));
+    }
+
+    @Test
+    void whenSelectExistingElement() {
+        SimpleMenu menu = new SimpleMenu();
+        menu.add(Menu.ROOT, "Задача общая", STUB_ACTION);
+        menu.add("Задача общая", "Задача первая", STUB_ACTION);
+        Optional<Menu.MenuItemInfo> selected = menu.select("Задача первая");
+        assertThat(selected.isPresent()).isTrue();
+        assertThat(selected.get().getName()).isEqualTo("Задача первая");
+    }
+
+    @Test
+    void whenSelectNonExistingElement() {
+        SimpleMenu menu = new SimpleMenu();
+        menu.add(Menu.ROOT, "Задача общая", STUB_ACTION);
+        Optional<Menu.MenuItemInfo> selected = menu.select("Задача вторая");
+        assertThat(selected.isPresent()).isFalse();
+    }
+
+    @Test
+    void whenAddRootElement() {
+        SimpleMenu menu = new SimpleMenu();
+        assertThat(menu.add(Menu.ROOT, "Задача общая", STUB_ACTION)).isTrue();
+    }
+
+    @Test
+    void whenAddChildElement() {
+        SimpleMenu menu = new SimpleMenu();
+        menu.add(Menu.ROOT, "Задача общая", STUB_ACTION);
+        assertThat(menu.add("Задача общая", "Задача первая", STUB_ACTION)).isTrue();
     }
 }
