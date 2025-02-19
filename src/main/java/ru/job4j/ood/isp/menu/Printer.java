@@ -1,24 +1,26 @@
 package ru.job4j.ood.isp.menu;
 
-import java.util.Iterator;
-
 public class Printer implements MenuPrinter {
     @Override
     public void print(Menu menu) {
-        printMenu(menu.iterator(), 0);
+        for (Menu.MenuItemInfo itemInfo : menu) {
+            System.out.println(printMenu(itemInfo));
+        }
     }
 
-    private void printMenu(Iterator<Menu.MenuItemInfo> items, int depth) {
-        while (items.hasNext()) {
-            Menu.MenuItemInfo item = items.next();
-            String indentation = "-".repeat(depth * 4);
-            System.out.println(indentation + item.getNumber() + " " + item.getName());
-            if (!item.getChildren().isEmpty()) {
-                /*
-                Если у элемента есть дети, вызываем рекурсию для печати детей
-                 */
-                printMenu(items, depth + 1);
-            }
-        }
+    /*
+    В методе добавляются пробелы исходя из длины номера в меню.
+     Выбираем максимальную длину между 0 и длиной номера минус единица -
+     на полученное число повторов выводим "----" и прибавляем к пробелам
+     номер
+     */
+    private String printMenu(Menu.MenuItemInfo itemInfo) {
+        StringBuilder sb = new StringBuilder();
+        String number = itemInfo.getNumber();
+        return sb.append("----".repeat(Math.max(0, number.split("\\.").length - 1)))
+                .append(number)
+                .append(" ")
+                .append(itemInfo.getName())
+                .toString();
     }
 }

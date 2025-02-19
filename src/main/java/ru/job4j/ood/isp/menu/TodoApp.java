@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class TodoApp {
     private static final ActionDelegate DEFAULT_ACTION = () -> System.out.println("Some action");
-    private static final String DIVIDER = "——————";
+    private static final String DIVIDER = "--------------------------------------";
     private static final String ASK_INT = "Введите цифру для выбора пункта меню: ";
     private static final String ASK_PARENT_NAME = "Введите имя родителя: ";
     private static final String ASK_ELEMENT_NAME = "Введите имя элемента: ";
